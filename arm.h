@@ -30,6 +30,6 @@ typedef struct
 	state_e state;
 } arm_t;
 
-void set_mode(arm_t *arm, state_e state);
+void set_state(arm_t *arm, state_e state);
 
 #endif
