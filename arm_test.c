@@ -36,6 +36,9 @@ static void test_set_state_arm()
 
     // Call to set_state() with the enum argument as 'ARM'.
     set_state(&arm, ARM);
+    
+    // Check that values have been set correctly
+    ASSERT_EQUAL(arm.state, ARM);
 
     ASSERT_EQUAL(arm.SP, 1);	
     ASSERT_EQUAL(arm.LR, 2);	
@@ -55,7 +58,10 @@ static void test_set_state_thumb()
 
     // Call to set_state() with the enum argument as 'THUMB'.
     set_state(&arm, THUMB);
-    
+
+    // Check that values have been set correctly
+    ASSERT_EQUAL(arm.state, THUMB);
+
     ASSERT_EQUAL(arm.SP, 0); 
     ASSERT_EQUAL(arm.LR, 0); 
     ASSERT_EQUAL(arm.PC, 0); 
