@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#define GENERAL_REGISTERS_SIZE 31
+#define STATUS_REGISTERS_SIZE 6
+
 #define ARM_STATE_SP_INDEX 13
 #define ARM_STATE_LR_INDEX 14
 #define ARM_STATE_PC_INDEX 15
@@ -15,12 +18,8 @@ typedef enum
 
 typedef struct
 {
-	int32_t general_registers[31];
-	int32_t status_registers[6];
-	
-	// If in ARM mode, r13 is used as the Stack Pointer (SP), r14 is used as
-	// the subroutine Link Register (LR), and r15 holds the Program 
-	// Counter (PC).
+	int32_t general_registers[GENERAL_REGISTERS_SIZE];
+	int32_t status_registers[STATUS_REGISTERS_SIZE];
 	
 	int32_t SP;
 	int32_t LR;
@@ -31,6 +30,6 @@ typedef struct
 	state_e state;
 } arm_t;
 
-void set_mode(mode_e mode);
+void set_mode(arm_t *arm, state_e state);
 
 #endif
