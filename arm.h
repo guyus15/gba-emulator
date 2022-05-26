@@ -7,6 +7,12 @@
 #define ARM_STATE_LR_INDEX 14
 #define ARM_STATE_PC_INDEX 15
 
+typedef enum
+{
+	ARM = 0,
+	THUMB
+} state_e;
+
 typedef struct
 {
 	int32_t general_registers[31];
@@ -21,13 +27,9 @@ typedef struct
 	int32_t PC;
 	int32_t CPSR;
 	int32_t SPSR;
-} arm_t;
 
-typedef enum
-{
-	ARM = 0,
-	THUMB
-} mode_e;
+	state_e state;
+} arm_t;
 
 void set_mode(mode_e mode);
 
