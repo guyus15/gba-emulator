@@ -42,16 +42,36 @@ static void test_set_state_arm()
     ASSERT_EQUAL(arm.PC, 3);	
 }
 
+static void test_set_state_thumb()
+{
+    test_name("test_set_state_thumb");
+
+    // This test ensures that when the set_state() function is called with
+    // the enum argument of 'THUMB', the ARM regsiters are set correctly.
+    
+    // When setting the state to Thumb, the Stack Pointer, Link Register and
+    // Program Counter are set to individual values. They do not rely on
+    // general registers.
+
+    // Call to set_state() with the enum argument as 'THUMB'.
+    set_state(&arm, THUMB);
+    
+    ASSERT_EQUAL(arm.SP, 0); 
+    ASSERT_EQUAL(arm.LR, 0); 
+    ASSERT_EQUAL(arm.PC, 0); 
+}
+
 int main(int argc, char *argv[])
 {	
     set_before_each(before_each);
 
     void (*tests[])() = 
 	{
-        test_set_state_arm
+        test_set_state_arm,
+        test_set_state_thumb
     };
 
-    run_tests(tests, 1);
+    run_tests(tests, 2);
 
     return 0;
 }
