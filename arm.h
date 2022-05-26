@@ -16,6 +16,16 @@ typedef enum
     THUMB
 } state_e;
 
+typedef enum
+{
+    USER = 0,   // The usual ARM program execution state
+    FIQ,        // Supports data transfer of channel process
+    IRQ,        // General-purpose interrupt handling
+    SUPERVISOR, // A protected mode for the operating system
+    ABORT,      // Entered after a data or instruction Prefetch Abort
+    SYSTEM      // A privileged user mode for the operating system
+} mode_e;
+
 typedef struct
 {
     int32_t general_registers[GENERAL_REGISTERS_SIZE];
