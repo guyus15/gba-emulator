@@ -12,22 +12,22 @@
 
 typedef enum
 {
-	ARM = 0,
-	THUMB
+    ARM = 0,
+    THUMB
 } state_e;
 
 typedef struct
 {
-	int32_t general_registers[GENERAL_REGISTERS_SIZE];
-	int32_t status_registers[STATUS_REGISTERS_SIZE];
+    int32_t general_registers[GENERAL_REGISTERS_SIZE];
+    int32_t status_registers[STATUS_REGISTERS_SIZE];
 	
-	int32_t SP;
-	int32_t LR;
-	int32_t PC;
-	int32_t CPSR;
-	int32_t SPSR;
+    int32_t SP;
+    int32_t LR;
+    int32_t PC;
+    int32_t CPSR;
+    int32_t SPSR;
 
-	state_e state;
+    state_e state;
 } arm_t;
 
 void set_state(arm_t *arm, state_e state);
