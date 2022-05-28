@@ -67,6 +67,42 @@ static void test_set_state_thumb()
     ASSERT_EQUAL(arm.PC, 0); 
 }
 
+static void test_set_mode()
+{
+    test_name("test_set_mode");
+
+    // This test ensures that when the set_mode() function is called,
+    // the mode of operation of the processor is set correctly.
+    
+    // Call to set_mode() with the enum argument as 'USR'
+    set_mode(&arm, USR);
+    ASSERT_EQUAL(arm.mode, USR);
+
+    // Call to set_mode() with the enum argument as 'FIQ'
+    set_mode(&arm, FIQ);
+    ASSERT_EQUAL(arm.mode, FIQ);
+
+    // Call to set_mode() with the enum argument as 'IRQ'
+    set_mode(&arm, IRQ);
+    ASSERT_EQUAL(arm.mode, IRQ);
+
+    // Call to set_mode() with the enum argument as 'SVC'
+    set_mode(&arm, SVC);
+    ASSERT_EQUAL(arm.mode, SVC);
+    
+    // Call to set_mode() with the enum argument as 'ABT'
+    set_mode(&arm, ABT);
+    ASSERT_EQUAL(arm.mode, ABT);
+
+    // Call to set_mode() with the enum argument as 'SYS'
+    set_mode(&arm, SYS);
+    ASSERT_EQUAL(arm.mode, SYS); 
+
+    // Call to set_mode() with the enum argument as 'UND'
+    set_mode(&arm, UND);
+    ASSERT_EQUAL(arm.mode, UND);
+}
+
 int main(int argc, char *argv[])
 {	
     set_before_each(before_each);
@@ -74,10 +110,11 @@ int main(int argc, char *argv[])
     void (*tests[])() = 
 	{
         test_set_state_arm,
-        test_set_state_thumb
+        test_set_state_thumb,
+        test_set_mode
     };
 
-    run_tests(tests, 2);
+    run_tests(tests, 3);
 
     return 0;
 }
