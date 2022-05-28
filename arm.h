@@ -18,12 +18,13 @@ typedef enum
 
 typedef enum
 {
-    USER = 0,   // The usual ARM program execution state
-    FIQ,        // Supports data transfer of channel process
-    IRQ,        // General-purpose interrupt handling
-    SUPERVISOR, // A protected mode for the operating system
-    ABORT,      // Entered after a data or instruction Prefetch Abort
-    SYSTEM      // A privileged user mode for the operating system
+    USR = 0, // The usual ARM program execution state
+    FIQ,     // Supports data transfer of channel process
+    IRQ,     // General-purpose interrupt handling
+    SVC,     // A protected mode for the operating system
+    ABT,     // Entered after a data or instruction Prefetch Abort
+    SYS,     // A privileged user mode for the operating system
+    UND,     // Undefined mode, entered when an undefined instruction is executed.
 } mode_e;
 
 typedef struct
@@ -38,8 +39,11 @@ typedef struct
     int32_t SPSR;
 
     state_e state;
+    mode_e mode;
 } arm_t;
 
 void set_state(arm_t *arm, state_e state);
+
+void set_mode(arm_t *arm, mode_e mode);
 
 #endif

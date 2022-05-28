@@ -21,3 +21,8 @@ void set_state(arm_t *arm, state_e state)
     }
 }
 
+void set_mode(arm_t *arm, mode_e mode)
+{
+    arm->mode = mode;
+
+}
