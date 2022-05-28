@@ -39,11 +39,13 @@ typedef struct
     int32_t SPSR;
 
     state_e state;
+    state_e previous_state;
+
     mode_e mode;
 } arm_t;
 
+void initialise_arm(arm_t *arm);
 void set_state(arm_t *arm, state_e state);
-
 void set_mode(arm_t *arm, mode_e mode);
 
 #endif

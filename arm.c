@@ -1,16 +1,40 @@
 #include "arm.h"
 
 #include <stdlib.h>
-#include <stdio.h>
+#include <string.h>
+
+void initialise_arm(arm_t *arm)
+{
+    // Zero memory
+    memset(arm->general_registers, 0, sizeof(arm->general_registers));
+    memset(arm->status_registers, 0, sizeof(arm->status_registers));
+    arm->CPSR = 0;
+    arm->SPSR = 0;
+
+    arm->state = ARM;
+    arm->previous_state = ARM;
+
+    arm->mode = USR;
+
+    // Processor state is ARM by default.
+    arm->SP = &(arm->general_registers[ARM_STATE_SP_INDEX]);
+    arm->LR = &(arm->general_registers[ARM_STATE_LR_INDEX]);
+    arm->PC = &(arm->general_registers[ARM_STATE_PC_INDEX]);
+
+}
 
 void set_state(arm_t *arm, state_e state)
 {
+    // If state is already set to the argument, return.
+    if (state == arm->previous_state)
+    {
+        return;
+    }
+
     arm->state = state;
 
     if (arm->state == ARM)
     {
-        printf("Setting the state to ARM\n");
-
         // Check if the Stack Pointer, Linker Register and Program Counter have
         // been allocated, if they have, free them.
         if (arm->SP != NULL)
@@ -55,6 +79,8 @@ void set_state(arm_t *arm, state_e state)
         *(arm->LR) = temp2;
         *(arm->PC) = temp3;
     }
+
+    arm->previous_state = state;
 }
 
 void set_mode(arm_t *arm, mode_e mode)
