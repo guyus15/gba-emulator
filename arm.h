@@ -32,9 +32,9 @@ typedef struct
     int32_t general_registers[GENERAL_REGISTERS_SIZE];
     int32_t status_registers[STATUS_REGISTERS_SIZE];
 	
-    int32_t SP;
-    int32_t LR;
-    int32_t PC;
+    int32_t *SP;
+    int32_t *LR;
+    int32_t *PC;
     int32_t CPSR;
     int32_t SPSR;
 
