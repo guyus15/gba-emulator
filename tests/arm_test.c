@@ -19,6 +19,7 @@ static void before_each()
     arm.SPSR = 0;
 }
 
+// Test 1
 static void test_set_state_arm()
 {
     test_name("test_set_state_arm");
@@ -40,11 +41,12 @@ static void test_set_state_arm()
     // Check that values have been set correctly
     ASSERT_EQUAL(arm.state, ARM);
 
-    ASSERT_EQUAL(arm.SP, 1);	
-    ASSERT_EQUAL(arm.LR, 2);	
-    ASSERT_EQUAL(arm.PC, 3);	
+    ASSERT_EQUAL(*(arm.SP), 1);	
+    ASSERT_EQUAL(*(arm.LR), 2);	
+    ASSERT_EQUAL(*(arm.PC), 3);	
 }
 
+// Test 2
 static void test_set_state_thumb()
 {
     test_name("test_set_state_thumb");
@@ -56,17 +58,72 @@ static void test_set_state_thumb()
     // Program Counter are set to individual values. They do not rely on
     // general registers.
 
+    // First set the state to ARM so we can see that values correctly map over
+    // when switched to Thumb state.
+
+    arm.general_registers[13] = 3;
+    arm.general_registers[14] = 4;
+    arm.general_registers[15] = 5;
+
+    set_state(&arm, ARM);
+
     // Call to set_state() with the enum argument as 'THUMB'.
     set_state(&arm, THUMB);
 
     // Check that values have been set correctly
     ASSERT_EQUAL(arm.state, THUMB);
 
-    ASSERT_EQUAL(arm.SP, 0); 
-    ASSERT_EQUAL(arm.LR, 0); 
-    ASSERT_EQUAL(arm.PC, 0); 
+    ASSERT_EQUAL(*(arm.SP), 3); 
+    ASSERT_EQUAL(*(arm.LR), 4); 
+    ASSERT_EQUAL(*(arm.PC), 5); 
 }
 
+// Test 4
+static void test_set_state_arm_then_thumb()
+{
+    test_name("test_set_state_arm_then_thumb");
+    // This test ensures that the program behaves correctly when we call the 
+    // set_state() function first with the argument 'ARM' and then with the
+    // argument 'THUMB'
+
+    arm.general_registers[13] = 1;
+    arm.general_registers[14] = 2;
+    arm.general_registers[15] = 3;
+
+    set_state(&arm, ARM);
+
+    set_state(&arm, THUMB);
+
+    // Check values are the correct values
+    ASSERT_EQUAL(*(arm.SP), 1);
+    ASSERT_EQUAL(*(arm.LR), 2);
+    ASSERT_EQUAL(*(arm.PC), 3);
+}
+
+// Test 5
+static void test_set_state_thumb_then_arm()
+{
+    test_name("test_set_state_thumb_then_arm");
+
+    // This test ensures that the program behaves correctly when we call the 
+    // set_state() function first with the argument 'THUMB' and then with the
+    // argument 'ARM'
+    
+    arm.general_registers[13] = 1;
+    arm.general_registers[14] = 2;
+    arm.general_registers[15] = 3;
+
+    set_state(&arm, THUMB);
+
+    set_state(&arm, ARM);
+
+    // Check values are the correct values
+    ASSERT_EQUAL(*(arm.SP), 1);
+    ASSERT_EQUAL(*(arm.LR), 2);
+    ASSERT_EQUAL(*(arm.PC), 3);
+}
+
+// Test 3
 static void test_set_mode()
 {
     test_name("test_set_mode");
@@ -111,10 +168,12 @@ int main(int argc, char *argv[])
 	{
         test_set_state_arm,
         test_set_state_thumb,
-        test_set_mode
+        test_set_mode,
+        test_set_state_arm_then_thumb,
+        test_set_state_thumb_then_arm
     };
 
-    run_tests(tests, 3);
+    run_tests(tests, 5);
 
     return 0;
 }
