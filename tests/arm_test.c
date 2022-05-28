@@ -123,6 +123,28 @@ static void test_set_state_thumb_then_arm()
     ASSERT_EQUAL(*(arm.PC), 3);
 }
 
+// Test 6
+static void test_set_state_arm_twice()
+{   
+    test_name("test_state_arm_twice");
+
+    // This test ensures that the program behaves correctly when we call the
+    // set_state() function twice with the argument 'ARM'.
+
+    // Some test values
+    arm.general_registers[13] = 1;
+    arm.general_registers[14] = 2;
+    arm.general_registers[15] = 3;
+
+    set_state(&arm, ARM);
+    set_state(&arm, ARM);
+    
+    // Check values are correct.
+    ASSERT_EQUAL(*(arm.SP), 1);
+    ASSERT_EQUAL(*(arm.LR), 2);
+    ASSERT_EQUAL(*(arm.PC), 3);
+}
+
 // Test 3
 static void test_set_mode()
 {
@@ -170,10 +192,11 @@ int main(int argc, char *argv[])
         test_set_state_thumb,
         test_set_mode,
         test_set_state_arm_then_thumb,
-        test_set_state_thumb_then_arm
+        test_set_state_thumb_then_arm,
+        test_set_state_arm_twice
     };
 
-    run_tests(tests, 5);
+    run_tests(tests, 6);
 
     return 0;
 }
